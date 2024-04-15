@@ -319,7 +319,110 @@ func main(){
 
 #### 判断语句if
 
-if后面没括号，
+if后面没括号，支持初始化表达式（并行方式）
+
+"{"必须在条件语句或else同一行
+
+#### 循环语句for
+
+```go
+//第一种
+func main(){
+    a := 1
+    for{
+        a++
+        if a > 3{
+            break
+        }
+        fmt.Println(a)
+    }
+      fmt.Println("over")
+}
+//2,3,over
+
+//第二种
+func main(){
+    a := 1
+    for a  <= 3{
+        a++
+        fmt.Println(a)
+    }
+      fmt.Println("over")
+}
+//2,3,4,over
+
+//第三种
+func main(){
+    a := 1
+    for i= 0；i< 3;i++{
+        a++
+        fmt.Println(a)
+    }
+      fmt.Println("over")
+}
+//2,3,4,over
+```
+
+#### 选择语句switch
+
+可以使用任何类型或表达式作为条件语句
+
+不需写break，条件符合自动终止
+
+若要继续执行下一个case，可使用fallthrough语句
+
+```go
+func main(){
+    a := 1 
+    switch a{
+    case a >= 0:
+        fmt.Println("a=0")
+        fallthrough
+        case a >= 1:
+        fmt.Println("a=1")
+        default:
+        fmt.Println("None")
+    }
+}
+//a=0,a=1
+```
+
+#### 跳转语句goto,break,conti
+
+都可配合标签使用。标签名要区分大小写
+
+break和continue配合标签可用于多层循环的跳出
+
+goto是调整执行位置
+
+```go
+func main(){
+    LABEL1:
+    for{
+        for i := 0;i < 10;i++{
+          if i > 3 {
+            break LABEL1   
+        }
+      }
+    }
+    fmt.Println("OK")
+}
+//OK,break后没加LABEL1将会无限循环，break LABEL1代表结束LABEL1的循环 ,LANEL1与最外围的for是一级的
+
+func main(){
+    LABEL1:
+    for i := 0;i < 10;i++{
+        for {
+            continue LABEL1 
+            fmt.Println(i)
+        }
+    }
+     fmt.Println("OK")
+}
+//OK,内部的for是无线循环的，所以i不会输出，continue跳到外围的与LABEL1同级的for（有限的）进行执行才能输出"OK"
+```
+
+
 
 
 
