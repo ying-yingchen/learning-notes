@@ -422,7 +422,62 @@ func main(){
 //OK,内部的for是无线循环的，所以i不会输出，continue跳到外围的与LABEL1同级的for（有限的）进行执行才能输出"OK"
 ```
 
+#### 数组Array
 
+定义数组的格式：var<varName>[n]<type>,n>=0
+
+```go
+func main(){
+    a :=[2]int{1}
+    fmt.Println(a)
+}
+//输出[1 0]
+
+func main(){
+    a :=[3]int{2：1}
+    fmt.Println(a)
+}
+//输出[0 0 1]
+
+func main(){
+    a :=[...]int{0:5,1:2,2:6}
+    fmt.Println(a)
+}
+//输出[5 2 6]
+```
+
+数组之间可以用==或！=进行比较
+
+```go
+func main(){
+    a := [2][3]int{
+        {5,2,6},
+        {1,7,2}
+        fmt.Println(a)
+    }
+}
+//输出[[5 2 6][1 7 2]]
+```
+
+```go
+func main(){
+    a := [...]int{5,2,6,1,7,2}
+    fmt.Println(a)
+    
+    num := len(a)
+    for i := 0;i < num;i++{
+        for j := i+1;j <num:J++{
+            if a[i]<[j]{
+                tem := a[i]
+                a[i] = a[j]
+                a[j] = temp
+            }
+        }
+    }
+    fmt.Println(a)
+}
+//冒号排序
+```
 
 
 
