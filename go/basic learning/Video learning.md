@@ -504,12 +504,125 @@ func main(){
 }
 // [1 2 3 4 5 6 7 8 9 0];[6 7 8 9 0]
 //s1 :=a[5:len(a)]代表a（一定有5或大于5）中取5个
-//s1 :=a[5:]5到尾部；s1 :=a[:5]前5个元素
+//s1 :=a[5:]第5到尾部；s1 :=a[:5]前5个元素
 
 func main(){
     s1 := make([]int,3,10)
+    fmt.Println(len(s1),cap(s1))
+    fmt.Println(s1)
 }
+//3 ;10 ;[0 0 0]
 ```
+
+#### Reslice
+
+索引是以被slice为准
+
+索引不可越界
+
+```{
+func main( ){
+     a := []byte{'a','b','c','d','e','f','g','h','i'}
+     sa := a[2:5]
+     sb := sa[1:3]
+     fmt.Println(string(sb))
+}
+//sa输出cde，sb输出de
+```
+
+#### Append
+
+在slice尾部追加元素或另一个slice
+
+拼接后的容量大于原slice所允许的容量，此时会重新分配数据并拷贝原始数据
+
+```go
+func main( ){
+    s1 := make([]int,3,6)
+    fmt.Println("%p",s1)
+    s1=append(s1,5,2,6)
+    fmt.Println("%v","%p",s1,s1)
+}
+//输出第一个地址，[0 0 0 5 2 6]输出相同的地址，因为加的slice没有超过原slice，所以输出相同的地址
+
+func main( ){
+    s1 := make([]int,3,6)
+    fmt.Println("%p",s1)
+    s1=append(s1,5,2,6)
+    fmt.Println("%v","%p",s1,s1)
+    s1=append(s1,1,7,2)
+    fmt.Println("%v","%p",s1,s1)
+}
+//输出第一个地址，[0 0 0 5 2 6]输出与第一个相同的地址，[0 0 0 5 2 6 1 7 2]输出一个新的地址，即拼接后容量大于原slice，所以出现新的地址
+```
+
+#### copy
+
+```go
+func main(){
+    s1 := []int{5,2,6,1,7,2}
+    s2 := []int{0,9,0}
+    copy(s2,s1)
+    fmt.Println(s1)
+}
+//输出[5,2,6],将s1的前三个元素copy到s2，因为s2比较短，只会拷贝s2相同数量的元素，反之，如果copy(s1,s2)将s2copy到s1，则会输出[0 9 0 1 7 2]。
+//也可以之拷贝其中一部分
+func main(){
+    s1 := []int{5,2,6,1,7,2}
+    s2 := []int{0,9,0,0,1,24,1,5,8}
+    copy(s2[2:4],s1[1:3])
+    fmt.Println(s2)
+}
+//输出[0 9 2 6 1 24 1 5 8]
+```
+
+#### map:key-value
+
+使用make()创建
+
+```go
+//第一种
+func main(){
+    var m map[int]string
+    m = map[int]string{}
+    fmt.Println(m)
+}
+//第二种
+func main(){
+    var m map[int]string
+    m = make(map[int]string{})
+    fmt.Println(m)
+}
+//第三种
+func main(){
+    var m map[int]string = make(map[int]string{})
+    fmt.Println(m)
+}
+//第四种
+func main(){
+    m := make(map[int]string{})
+    fmt.Println(m)
+}
+//均输出map[]
+```
+
+```go
+func main(){
+    m := make(map[int]string{})
+    m[1] = "OK"
+    fmt.Println(m)
+}
+//输出map[1:OK]
+func main(){
+    m := make(map[int]string{})
+    m[1] = "OK"//若不想要这个map，可加delete(m,1)到下一行，即a输出为空
+    a := m[1]
+    fmt.Println(a)
+}
+//取出map的值，即输出"OK"
+```
+
+
 
 
 
