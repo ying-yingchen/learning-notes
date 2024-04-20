@@ -620,7 +620,42 @@ func main(){
     fmt.Println(a)
 }
 //取出map的值，即输出"OK"
+
+//复杂map，多层map，要记得初始化
+func main(){
+    var m map[int]map[int]string
+    m = make(map[int]map[int]string)
+    a,ok := m[2][1]
+    if !ok{
+        m[2] = make(map[int]string)//第二层map初始化
+    }
+    m[2][1] = "GOOD"
+    a,ok = m[2][1]
+    fmt.Println(a,ok)
+}
+//输出GOOD true
 ```
+
+ ```go
+ //map中k(key)的间接排序
+ package main
+ import(
+     "fmt"
+     "sort"
+ )
+ func main(){
+     m := map[int]string{1:"a",2:"b",3:"c",4:"d",5:"e"}
+     s := make([]int,len(m))
+  //给map迭代
+     i := 0   
+     for k,_ := range m{
+         s[i] = k
+         i++     
+     }
+     sort.Ints(s) //没有导入这个包的时候，每次输出结果为[2 1 4 3 5]或[3 4 2 1 5],即结果为无序的，当导入sort这个包的时候，每次打印结果都是有序的[1 2 3 4 5]
+     fmt.Println(s)
+ }
+ ```
 
 
 
