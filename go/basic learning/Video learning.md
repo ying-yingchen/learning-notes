@@ -655,11 +655,107 @@ func main(){
      sort.Ints(s) //没有导入这个包的时候，每次输出结果为[2 1 4 3 5]或[3 4 2 1 5],即结果为无序的，当导入sort这个包的时候，每次打印结果都是有序的[1 2 3 4 5]
      fmt.Println(s)
  }
+ //将类型为map[int]string的键和值进行交换，变成类型map[string]int
+ func main(){
+     m1 := map[int]string{5:"a",2"b",6:"c"}
+     fmt.Println(m1)
+     m2 := make(map[string]int)
+     for k,v :=range m1{
+         m2[v] = k
+     }
+     fmt.Println(m2)
+ }
+ //map[5:a 2:b 6:c] map[a:5 b:2 c:6]
  ```
 
+#### 函数function
 
+go函数不支持嵌套、重载和默认参数
 
+但支持：无需声明原型、不定长度变参多返回值、命名返回值参数、匿名函数、闭包
 
+```go 
+func main(){
+    a := func(){
+        fmt.Println("Func A")
+    }      //匿名函数
+    a()    //调用函数
+}
+func A(){
+    fmt.Println("Func A")
+}
+//输出Func A
+
+//闭包操作:返回一个匿名函数
+func main(){
+    f := closure(10)
+    fmt.Println(f(1)) //输入1
+    fmt.Println(f(2)) //输入2
+}
+func closure(x int)func(int) int {
+    fmt.Println("%p\n",&x) //输出第一次的地址
+    return func(y int) int {
+        fmt.Println("%p\n",&x)
+        return x + y
+    }
+}
+//输出地址 地址 11 地址 12（三次地址一样，输入1和2会出现地址），三次调用都是同一个x
+```
+
+#### defer
+
+类似析构函数，在函数执行结束后按照调用顺序的**相反顺序**逐个执行
+
+即使函数发生严重错误也会执行
+
+常用于资源清理、文件关闭、解锁以及记录时间等操作
+
+通过与匿名函数配合可以在return后修改函数计算结果
+
+```go
+func main(){
+    fmt.Println("a")
+    defer fmt.Println("b")
+    defer fmt.Println("c")
+}//输出a c b,后定义先调用
+
+func main(){
+    for i := 0;i < 3;i++{
+        defer func(){
+         fmt.Println(i)   
+        }()     //括号代表defer调用函数
+    }
+}//输出3 3 3
+```
+
+go用panic/recover模式来处理错误
+
+panic可以在任何地方引发，recover只在defer调用的函数有效
+
+```go
+func main(){
+    A()
+    B()
+    C()
+}
+func A(){
+    fmt.Println("Func A")
+}
+func B(){
+    defer func(){
+        if err:=recover();err!=nil{
+            fmt.Println("Recover in B")
+        }
+    }()
+    panic("panic in B")
+   
+}
+func C(){
+    fmt.Println("Func C")
+}
+//输出Func A Recover in B Func C
+//没有用defer的话，panic会终止程序，就不会输出Func C
+```
 
 
 
