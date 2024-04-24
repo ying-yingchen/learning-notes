@@ -1,4 +1,6 @@
-### chapter two
+### chapter two_1
+
+### 变量  常量  类型
 
 #### 单个变量的声明与赋值
 
@@ -207,6 +209,62 @@ rune：int32别名，长度4字节
 
 函数类型：func
 
+#### 运算符
+
+优先级（从高到低）
+
+* ^   !(取反)
+* *,    /     %    <<   >>    &    &^
+* +,   -    |   ^
+* ==     !=    <    <=   >=    >
+* <-(专用于channel)
+* &&
+* ||
+
+```go
+fmt.Println(1 << 10)
+//输出1024，B到KB
+fmt.Println(1 << 10 << 10)
+//输出1048576，KB到MB
+
+/*
+6: 0110
+11:1011
+---------
+&  0010 = 2
+|  1111 = 15
+^  1101 = 13
+&^ 0100 = 4
+*/
+
+func main(){
+    a := 0
+    if a > 0 && (10/a) < 1{
+         fmt.Println("OK")
+    }  
+} 
+//&&左条件通过再执行右边
+```
+
+栗子 ：结合常量的iota与<<运算符实现计算机储存单位的枚举
+
+```go
+package main
+import (
+    "fmt"
+)
+const (
+    B float64 = 1 << (iota * 10)
+    KB
+    MB
+    GB
+)
+func main(){
+    fmt.Println(KB)
+}
+//KB = 1024
+```
+
 #### 类型零值
 
 不等于空值，通常情况值类型默认为0，bool为false，string为空字符串
@@ -321,3 +379,252 @@ fmt,Println("The first character of \"%s\" is %c.\n", str, ch)
 字符串长度：len(s)
 
 取字符：s[i]      "Hello"[1]   //输出为"e"
+
+字符串遍历：字节数组（byte类型）、Unicode字符（rune类型）
+
+#### 数组Array
+
+定义数组的格式：var<varName>[n]<type>,n>=0
+
+```go
+func main(){
+    a :=[2]int{1}
+    fmt.Println(a)
+}
+//输出[1 0]
+
+func main(){
+    a :=[3]int{2：1}
+    fmt.Println(a)
+}
+//输出[0 0 1]
+
+func main(){
+    a :=[...]int{0:5,1:2,2:6}
+    fmt.Println(a)
+}
+//输出[5 2 6]
+```
+
+数组之间可以用==或！=进行比较
+
+```go
+func main(){
+    a := [2][3]int{
+        {5,2,6},
+        {1,7,2}
+        fmt.Println(a)
+    }
+}
+//输出[[5 2 6][1 7 2]]
+```
+
+```go
+func main(){
+    a := [...]int{5,2,6,1,7,2}
+    fmt.Println(a)
+    
+    num := len(a)
+    for i := 0;i < num;i++{
+        for j := i+1;j <num:J++{
+            if a[i]<[j]{
+                tem := a[i]
+                a[i] = a[j]
+                a[j] = temp
+            }
+        }
+    }
+    fmt.Println(a)
+}
+//冒号排序
+```
+
+#### 切片slice
+
+是指向底层的数组，为引用类型，可以直接创建或从底层数组获取生成
+
+使用len( )获取元素个数，cap( )获取容量
+
+一般使用make( )创建
+
+若多个slice指向相同底层数组，其中一个的值改变会影响全部
+
+```go
+make([]T,len,cap)
+```
+
+其中cap可以省略，则和len值相同
+
+```go
+func main(){
+    a := [10]int{1,2,3,4,5,6,7,8,9}
+    fmt.Println(a)
+    s1 :=a[5:10]// a[5 6 7 8 9],不包含10
+    fmt.Println(s1)
+}
+// [1 2 3 4 5 6 7 8 9 0];[6 7 8 9 0]
+//s1 :=a[5:len(a)]代表a（一定有5或大于5）中取5个
+//s1 :=a[5:]第5到尾部；s1 :=a[:5]前5个元素
+
+func main(){
+    s1 := make([]int,3,10)
+    fmt.Println(len(s1),cap(s1))
+    fmt.Println(s1)
+}
+//3 ;10 ;[0 0 0]
+```
+
+#### Reslice
+
+索引是以被slice为准
+
+索引不可越界
+
+```go
+func main( ){
+     a := []byte{'a','b','c','d','e','f','g','h','i'}
+     sa := a[2:5]
+     sb := sa[1:3]
+     fmt.Println(string(sb))
+}
+//sa输出cde，sb输出de
+```
+
+#### Append
+
+在slice尾部追加元素或另一个slice
+
+拼接后的容量大于原slice所允许的容量，此时会重新分配数据并拷贝原始数据
+
+```go
+func main( ){
+    s1 := make([]int,3,6)
+    fmt.Println("%p",s1)
+    s1=append(s1,5,2,6)
+    fmt.Println("%v","%p",s1,s1)
+}
+//输出第一个地址，[0 0 0 5 2 6]输出相同的地址，因为加的slice没有超过原slice，所以输出相同的地址
+
+func main( ){
+    s1 := make([]int,3,6)
+    fmt.Println("%p",s1)
+    s1=append(s1,5,2,6)
+    fmt.Println("%v","%p",s1,s1)
+    s1=append(s1,1,7,2)
+    fmt.Println("%v","%p",s1,s1)
+}
+//输出第一个地址，[0 0 0 5 2 6]输出与第一个相同的地址，[0 0 0 5 2 6 1 7 2]输出一个新的地址，即拼接后容量大于原slice，所以出现新的地址
+```
+
+#### map:key-value
+
+使用make()创建
+
+```go
+//第一种
+func main(){
+    var m map[int]string
+    m = map[int]string{}
+    fmt.Println(m)
+}
+//第二种
+func main(){
+    var m map[int]string
+    m = make(map[int]string{})
+    fmt.Println(m)
+}
+//第三种
+func main(){
+    var m map[int]string = make(map[int]string{})
+    fmt.Println(m)
+}
+//第四种
+func main(){
+    m := make(map[int]string{})
+    fmt.Println(m)
+}
+//均输出map[]
+```
+
+```go
+func main(){
+    m := make(map[int]string{})
+    m[1] = "OK"
+    fmt.Println(m)
+}
+//输出map[1:OK]
+func main(){
+    m := make(map[int]string{})
+    m[1] = "OK"//若不想要这个map，可加delete(m,1)到下一行，即a输出为空
+    a := m[1]
+    fmt.Println(a)
+}
+//取出map的值，即输出"OK"
+
+//复杂map，多层map，要记得初始化
+func main(){
+    var m map[int]map[int]string
+    m = make(map[int]map[int]string)
+    a,ok := m[2][1]
+    if !ok{
+        m[2] = make(map[int]string)//第二层map初始化
+    }
+    m[2][1] = "GOOD"
+    a,ok = m[2][1]
+    fmt.Println(a,ok)
+}
+//输出GOOD true
+```
+
+ ```go
+//map中k(key)的间接排序
+package main
+import(
+    "fmt"
+    "sort"
+)
+func main(){
+    m := map[int]string{1:"a",2:"b",3:"c",4:"d",5:"e"}
+    s := make([]int,len(m))
+ //给map迭代
+    i := 0   
+    for k,_ := range m{
+        s[i] = k
+        i++     
+    }
+    sort.Ints(s) //没有导入这个包的时候，每次输出结果为[2 1 4 3 5]或[3 4 2 1 5],即结果为无序的，当导入sort这个包的时候，每次打印结果都是有序的[1 2 3 4 5]
+    fmt.Println(s)
+}
+//将类型为map[int]string的键和值进行交换，变成类型map[string]int
+func main(){
+    m1 := map[int]string{5:"a",2"b",6:"c"}
+    fmt.Println(m1)
+    m2 := make(map[string]int)
+    for k,v :=range m1{
+        m2[v] = k
+    }
+    fmt.Println(m2)
+}
+//map[5:a 2:b 6:c] map[a:5 b:2 c:6]
+ ```
+
+#### copy
+
+```go
+func main(){
+    s1 := []int{5,2,6,1,7,2}
+    s2 := []int{0,9,0}
+    copy(s2,s1)
+    fmt.Println(s1)
+}
+//输出[5,2,6],将s1的前三个元素copy到s2，因为s2比较短，只会拷贝s2相同数量的元素，反之，如果copy(s1,s2)将s2copy到s1，则会输出[0 9 0 1 7 2]。
+//也可以之拷贝其中一部分
+func main(){
+    s1 := []int{5,2,6,1,7,2}
+    s2 := []int{0,9,0,0,1,24,1,5,8}
+    copy(s2[2:4],s1[1:3])
+    fmt.Println(s2)
+}
+//输出[0 9 2 6 1 24 1 5 8]
+```
+
