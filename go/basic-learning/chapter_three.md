@@ -85,3 +85,46 @@ func main(){
 //输出{{526} yuxiaoyu 28}{{0} yusinan 18}
 ```
 
+#### 方法method
+
+通过显示说明receiver来实现与某个类型的组合
+
+```go
+type A struct {
+    Name string
+}
+type B struct {
+    Name string
+}
+func main(){
+    a := A{}
+    a.Print()
+    b := B{}
+    b.Print()
+}
+func (a A)Print(){
+    fmt.Println("A")
+}
+func (b B)Print(){
+    fmt.Println("B")
+}
+//输出A B
+```
+
+访问权限
+
+```go
+type A struct{
+    name string
+}
+func main(){
+    a := A{}
+    a.Print()
+}
+func (a *A) Print(){
+    a.name = "526"
+    fmt.Println(a.name)
+}
+//输出526，方法的访问权限很高
+```
+
