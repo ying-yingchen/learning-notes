@@ -128,3 +128,33 @@ func (a *A) Print(){
 //输出526，方法的访问权限很高
 ```
 
+#### 接口interface
+
+一个或多个方法签名的集合，只有方法声明
+
+```go
+type  USB interface{
+    Name() string
+    Connect()
+}  //定义
+type PhoneConnecter struct{
+    name string
+}
+func (pc PhoneConnecter) Name() string{
+    return pc.name
+}
+func (pc PhoneConnecter) Cinnect(){
+    fmt.Println("Contect:",pc.name)
+}
+func main(){
+    var a USB
+    a = PhoneContecter{"PhoneContecter"}
+    a.Connect()
+}
+//输出Connect:PhoneConnecter
+```
+
+判断类型用type switch
+
+判断数据类型用ok pattern
+
