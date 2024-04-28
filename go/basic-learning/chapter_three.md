@@ -158,3 +158,36 @@ func main(){
 
 判断数据类型用ok pattern
 
+#### 反射reflection
+
+配合interface{}空接口可有更大地发挥余地
+
+使用Type Of和Value Of函数从接口中获取目标对象信息
+
+```go
+type User struct{
+    Id, Age int
+    Name string
+}
+func (u User) Hello(){
+    fmt.Println("Hello,world")
+}
+func main(){
+    
+}
+
+func Info(o interface{}) {
+    t := reflect.TypeOf(o)
+    fmt.Println("Type:",t.name())
+    
+    v := reflect.ValueOf(O)
+    fmt.Println("Fields:")
+    
+    for i := 0;i < t,NumField(); i++{
+        f := t.Field(i)
+        val := v.Field(i).Interfance
+        fmt.Println("%6s: %v = %v".f.Name,f.Type,val)
+    }
+}
+```
+
