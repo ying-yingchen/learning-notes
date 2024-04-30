@@ -1,5 +1,16 @@
 ### chapter_three
 
+#### 值语义和引用语义
+
+二者差别在于赋值
+
+```go
+b = a //b的修改不会影响a的值
+b.Modify()  //会影响a的值，此类为引用类型
+```
+
+值语义：byte,int,bool,float32,array,struct,pointer等
+
 #### 结构struct
 
 ```go
@@ -136,7 +147,7 @@ func (a *A) Print(){
 type  USB interface{
     Name() string
     Connect()
-}  //定义
+}    //接口赋值
 type PhoneConnecter struct{
     name string
 }
@@ -157,6 +168,8 @@ func main(){
 判断类型用type switch
 
 判断数据类型用ok pattern
+
+Any类型：空接口interface{ }
 
 #### 反射reflection
 
