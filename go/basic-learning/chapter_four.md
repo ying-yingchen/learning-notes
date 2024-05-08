@@ -75,3 +75,24 @@ c := make(chan int, 1024) //大小为1024的int类型channel,写入方可以一�
 ##### 超时机制
 
 在并发编程的通信过程中，最需要处理的就是超时问题，即向channel写数据时发现channel已满，或者从channel试图读取数据时发现channel为空。
+
+利用select机制能很方便地解决超时问题
+
+select的特点是只要其中一个case已经完成，程序就会继续往下执行，而不会考虑其他case的情况
+
+```go
+// 首先，我们实现并执行一个匿名的超时等待函数
+timeout := make(chan bool, 1) 
+go func() { 
+ time.Sleep(1e9) // 等待1秒钟
+ timeout <- true
+}() 
+// 然后我们把timeout这个channel利用起来
+select { 
+ case <-ch: 
+ // 从ch中读取到数据
+ case <-timeout: 
+ // 一直没有从ch中读取到数据，但从timeout中读取到了数据
+}
+```
+
