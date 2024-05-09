@@ -96,3 +96,27 @@ select {
 }
 ```
 
+##### channel的传递
+
+以使用这个特性来实现*nix上非常常见的管道（pipe）特性
+
+在处理数据时，我们可以采用管道设计，这样可以比较容易以插件的方式增加数据的处理流程
+
+```go
+//假设在管道中传递的数据只是一个整型数，在实际的应用场景中这通常会是一个数据块
+type PipeData struct { 
+ value int
+ handler func(int) int
+ next chan int
+} 
+//只要定义一系列PipeData的数据结构并一起传递给这个函数，就可以达到流式处理数据的目的
+func handle(queue chan *PipeData) { 
+ for data := range queue { 
+ data.next <- data.handler(data.value) 
+ } 
+} 
+```
+
+##### 单向channel 
+
+用于发送或者接收数据,支持读写
