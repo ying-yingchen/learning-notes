@@ -131,5 +131,29 @@ x, ok := <-ch
 
 #### 多核并行化
 
-利用现代服务器普遍具备的多核特性来尽量将任务并行化，从而达到降低总计算时间的目的
+利用现代服务器普遍具备的多核特性来尽量将任务并行化，从而达到降低总计算时间的目的。需要了解CPU核心的数量，并针对性地分解计算任务到多个goroutine中去并行运行
 
+goroutine简化了我们写并行代码的过程，但实际上整体运行效率并不真正高于单线程程序
+
+可以先通过设置环境变量GOMAXPROCS的值来控制使用多少个CPU核心
+
+* 直接设置环境变量GOMAXPROCS的值
+* 在代码中启动goroutine之前先调用以下这个语句以设置使用16个CPU核心
+
+```go
+runtime.GOMAXPROCS(16)
+```
+
+#### 出让时间片
+
+使用runtime包中的Gosched()函数实现
+
+#### 同步
+
+##### 同步锁
+
+sync包提供了两种锁类型：sync.Mutex和sync.RWMutex
+
+Mutex是最简单的一种锁类型,当一个goroutine获得了Mutex后，其他goroutine就只能乖乖等到这个goroutine释放该Mutex。
+
+RWMutex是经典的单写多读模型，在读锁占用的情况下，会阻止写，但不阻止读，也就是多个goroutine可同时获取读锁（调用RLock()方法）；而写锁（调用Lock()方法）会阻止任何其他goroutine（无论读和写）进来，整个锁相当于由该goroutine独占
