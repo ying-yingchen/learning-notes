@@ -166,3 +166,14 @@ for {
 } 
 ```
 
+#### HTTP编程：GET和POST方式请求数据
+
+##### 基本方法
+
+1. http.Get()等价于http.DefaultClient.Get()
+
+2. http.Post() 
+
+   请求的目标 URL 
+   将要 POST 数据的资源类型（MIMEType）
+   数据的比特流（[]byte形式）
