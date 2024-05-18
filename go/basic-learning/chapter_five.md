@@ -177,3 +177,38 @@ for {
    请求的目标 URL 
    将要 POST 数据的资源类型（MIMEType）
    数据的比特流（[]byte形式）
+
+#####  高级封装
+
+可自定义的http.Client
+
+```go
+type Client struct { 
+ // Transport用于确定HTTP请求的创建机制。
+ // 如果为空，将会使用DefaultTransport 
+ Transport RoundTripper 
+ // CheckRedirect定义重定向策略。
+ // 如果CheckRedirect不为空，客户端将在跟踪HTTP重定向前调用该函数。
+ // 两个参数req和via分别为即将发起的请求和已经发起的所有请求，最早的
+ // 已发起请求在最前面。
+ // 如果CheckRedirect返回错误，客户端将直接返回错误，不会再发起该请求。
+ // 如果CheckRedirect为空，Client将采用一种确认策略，将在10个连续
+ // 请求后终止
+ CheckRedirect func(req *Request, via []*Request) error 
+ // 如果Jar为空，Cookie将不会在请求中发送，并会
+ // 在响应中被忽略
+ Jar CookieJar 
+} 
+```
+
+http.Client类型包含了3个公开数据成员：
+
+Transport RoundTripper 
+CheckRedirect func(req *Request, via []*Request) error 
+Jar CookieJar 
+
+其中Transport类型必须实现http.RoundTripper接口。
+
+CheckRedirect函数指定处理重定向的策略。
+
+Jar可用于在 HTTP Client 中设定 Cookie。
