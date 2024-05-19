@@ -212,3 +212,11 @@ Jar CookieJar
 CheckRedirect函数指定处理重定向的策略。
 
 Jar可用于在 HTTP Client 中设定 Cookie。
+
+#### HTTP服务端
+
+如何处理HTTP请求和HTTPS请求
+
+1. 处理HTTP请求
+
+   使用 net/http 包提供的 http.ListenAndServe() 方法，可以在指定的地址进行监听，开启一个HTTP，服务端该方法的原型如下：func ListenAndServe(addr string, handler Handler) error 
