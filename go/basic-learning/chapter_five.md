@@ -220,3 +220,14 @@ Jar可用于在 HTTP Client 中设定 Cookie。
 1. 处理HTTP请求
 
    使用 net/http 包提供的 http.ListenAndServe() 方法，可以在指定的地址进行监听，开启一个HTTP，服务端该方法的原型如下：func ListenAndServe(addr string, handler Handler) error 
+
+2. 处理HTTPS请求
+
+   net/http 包还提供 http.ListenAndServeTLS() 方法，用于处理 HTTPS 连接请求：
+   func ListenAndServeTLS(addr string, certFile string, keyFile string, handler Handler) 
+    error 
+
+#### RPC 编程
+
+是一种通过网络从远程计算机程序上请求服务，而不需要了解底层网络细节的应用程序通信协议。
+
