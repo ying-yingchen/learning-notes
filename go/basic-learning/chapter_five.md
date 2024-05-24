@@ -246,6 +246,6 @@ RPC 采用客户端—服务器（Client/Server）的工作模式
 以上4个条件可以简单地用如下一行代码:
 
 ```go
-
+func (t *T) MethodName(argType T1, replyType *T2) error 
 ```
 
