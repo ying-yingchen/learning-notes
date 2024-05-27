@@ -249,3 +249,28 @@ RPC 采用客户端—服务器（Client/Server）的工作模式
 func (t *T) MethodName(argType T1, replyType *T2) error 
 ```
 
+ RPC 服务端和客户端交互的示例程序
+
+```go
+package server 
+type Args struct { 
+ A, B int
+} 
+type Quotient struct { 
+ Quo, Rem int
+} 
+type Arith int
+func (t *Arith) Multiply(args *Args, reply *int) error { 
+ *reply = args.A * args.B 
+ return nil
+} 
+func (t *Arith) Divide(args *Args, quo *Quotient) error { 
+ if args.B == 0 { 
+ return errors.New("divide by zero") 
+ } 
+ quo.Quo = args.A / args.B 
+ quo.Rem = args.A % args.B 
+ return nil
+} 
+```
+
