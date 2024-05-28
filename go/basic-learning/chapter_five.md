@@ -274,3 +274,5 @@ func (t *Arith) Divide(args *Args, quo *Quotient) error {
 } 
 ```
 
+##### 设计优雅的RPC接口
+
