@@ -276,3 +276,20 @@ func (t *Arith) Divide(args *Args, quo *Quotient) error {
 
 ##### 设计优雅的RPC接口
 
+RPC 提供的编码解码器接口如下：
+
+```go
+type ClientCodec interface { 
+ WriteRequest(*Request, interface{}) error  
+ReadResponseHeader(*Response) error 
+ ReadResponseBody(interface{}) error 
+ Close() error 
+} 
+type ServerCodec interface { 
+ ReadRequestHeader(*Request) error 
+ ReadRequestBody(interface{}) error 
+ WriteResponse(*Response, interface{}) error 
+ Close() error 
+} 
+```
+
