@@ -295,3 +295,4 @@ type ServerCodec interface {
 
 ### JSON 处理
 
+JSON （JavaScript Object Notation）是一种比XML更轻量级的数据交换格式，在易于人们阅读和编写的同时，也易于程序解析和生成。
