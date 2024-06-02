@@ -299,3 +299,11 @@ JSON （JavaScript Object Notation）是一种比XML更轻量级的数据交换�
 
 #### 编码为JSON格式
 
+使用json.Marshal()函数可以对一组数据进行JSON格式的编码
+
+声明如下：
+
+```go
+func Marshal(v interface{}) ([]byte, error) 
+```
+
