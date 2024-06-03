@@ -307,3 +307,4 @@ JSON （JavaScript Object Notation）是一种比XML更轻量级的数据交换�
 func Marshal(v interface{}) ([]byte, error) 
 ```
 
+Go语言的大多数数据类型都可以转化为有效的JSON文本，但channel、complex和函数这几种类型除外。
