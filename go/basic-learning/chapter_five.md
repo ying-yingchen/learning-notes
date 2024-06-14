@@ -338,3 +338,12 @@ var book Book
 每一个类型其实都至少实现了一个空接口，空接口是通用类型
 
 如果要解码一段未知结构的JSON，只需将这段JSON数据解码输出到一个空接口即可
+
+JSON数据里边的元素类型将做如下转换：
+
+ JSON中的布尔值将会转换为Go中的bool类型；
+ 数值会被转换为Go中的float64类型；
+ 字符串转换后还是string类型；
+ JSON数组会转换为[]interface{}类型；
+ JSON对象会转换为map[string]interface{}类型；
+ null值会转换为nil。
