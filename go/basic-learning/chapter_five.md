@@ -347,3 +347,5 @@ JSON数据里边的元素类型将做如下转换：
  JSON数组会转换为[]interface{}类型；
  JSON对象会转换为map[string]interface{}类型；
  null值会转换为nil。
+
+在Go的标准库encoding/json包中，允许使用map[string]interface{}和[]interface{}类型的值来分别存放未知结构的JSON对象或数组，
