@@ -349,3 +349,19 @@ JSON数据里边的元素类型将做如下转换：
  null值会转换为nil。
 
 在Go的标准库encoding/json包中，允许使用map[string]interface{}和[]interface{}类型的值来分别存放未知结构的JSON对象或数组，
+
+```go
+//示例代码
+b := []byte(`{ 
+ "Title": "Go语言编程", 
+ "Authors": ["XuShiwei", "HughLv", "Pandaman", "GuaguaSong", "HanTuo", "BertYuan", 
+ "XuDaoli"], 
+ "Publisher": "ituring.com.cn", 
+ "IsPublished": true, 
+ "Price": 9.99, 
+ "Sales": 1000000 
+}`) 
+var r interface{} 
+err := json.Unmarshal(b, &r) 
+```
+
