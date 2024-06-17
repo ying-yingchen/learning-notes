@@ -365,3 +365,13 @@ var r interface{}
 err := json.Unmarshal(b, &r) 
 ```
 
+在上述代码中，r被定义为一个空接口。json.Unmarshal() 函数将一个JSON对象解码到空接口r中，最终r将会是一个键值对的 map[string]interface{} 结构：
+map[string]interface{}{ 
+ "Title": "Go语言编程", 
+ "Authors": ["XuShiwei", "HughLv", "Pandaman", "GuaguaSong", "HanTuo", "BertYuan", 
+ "XuDaoli"], 
+ "Publisher": "ituring.com.cn", 
+ "IsPublished": true, 
+ "Price": 9.99, 
+ "Sales": 1000000 
+} 
