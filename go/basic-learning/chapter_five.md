@@ -366,6 +366,8 @@ err := json.Unmarshal(b, &r)
 ```
 
 在上述代码中，r被定义为一个空接口。json.Unmarshal() 函数将一个JSON对象解码到空接口r中，最终r将会是一个键值对的 map[string]interface{} 结构：
+
+```go
 map[string]interface{}{ 
  "Title": "Go语言编程", 
  "Authors": ["XuShiwei", "HughLv", "Pandaman", "GuaguaSong", "HanTuo", "BertYuan", 
@@ -375,3 +377,15 @@ map[string]interface{}{
  "Price": 9.99, 
  "Sales": 1000000 
 } 
+```
+
+要访问解码后的数据结构，需要先判断目标结构是否为预期的数据类型：
+
+```go
+gobook, ok := r.(map[string]interface{}) 
+```
+
+
+
+
+
