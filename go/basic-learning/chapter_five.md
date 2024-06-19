@@ -385,7 +385,7 @@ map[string]interface{}{
 gobook, ok := r.(map[string]interface{}) 
 ```
 
-
+然后，我们可以通过for循环搭配range语句一一访问解码后的目标数据：
 
 
 
