@@ -387,5 +387,27 @@ gobook, ok := r.(map[string]interface{})
 
 然后，我们可以通过for循环搭配range语句一一访问解码后的目标数据：
 
+```go
+if ok { 
+ for k, v := range gobook { 
+ switch v2 := v.(type) { 
+ case string: 
+ fmt.Println(k, "is string", v2) 
+ case int: 
+ fmt.Println(k, "is int", v2) 
+ case bool: 
+ fmt.Println(k, "is bool", v2) 
+ case []interface{}: 
+ fmt.Println(k, "is an array:") 
+ for i, iv := range v2 { 
+ fmt.Println(i, iv) 
+ } 
+ default: 
+ fmt.Println(k, "is another type not handle yet") 
+ } 
+ } 
+} 
+```
+
 
 
