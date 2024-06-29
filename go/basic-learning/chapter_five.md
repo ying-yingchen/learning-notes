@@ -413,3 +413,4 @@ if ok {
 
 #### JSON的流式读写
 
+Go内建的encoding/json 包还提供Decoder和Encoder两个类型，用于支持JSON数据的流式读写，并提供NewDecoder()和NewEncoder()两个函数来便于具体实现：
