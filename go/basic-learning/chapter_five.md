@@ -420,5 +420,35 @@ func NewDecoder(r io.Reader) *Decoder
 func NewEncoder(w io.Writer) *Encoder 
 ```
 
+从标准输入流中读取JSON数据，然后将其解码，但只保留Title字段（书名），再写入到标准输出流中。
+
+```go
+package main 
+import ( 
+  "encoding/json" 
+  "log" 
+  "os" 
+) 
+func main() { 
+  dec := json.NewDecoder(os.Stdin) 
+  enc := json.NewEncoder(os.Stdout) 
+  for { 
+  var v map[string]interface{} 
+  if err := dec.Decode(&v); err != nil { 
+  log.Println(err) 
+  return
+  } 
+  for k := range v { 
+  if k != "Title" { 
+  v[k] = nil, false
+  } 
+  } 
+  if err := enc.Encode(&v); err != nil { 
+  log.Println(err) 
+  } 
+  } 
+} 
+```
+
 
 
