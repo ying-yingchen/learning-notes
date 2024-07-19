@@ -450,7 +450,5 @@ func main() {
 } 
 ```
 
-使用Decoder 和Encoder对数据流进行处理可以应用得更为广泛些，比如读写 HTTP 连接、
-WebSocket或文件等，Go的标准库net/rpc/jsonrpc就是一个应用了Decoder和Encoder的实
-际例子。
+使用Decoder 和Encoder对数据流进行处理可以应用得更为广泛些，比如读写 HTTP 连接、WebSocket或文件等，Go的标准库net/rpc/jsonrpc就是一个应用了Decoder和Encoder的实际例子。
 
